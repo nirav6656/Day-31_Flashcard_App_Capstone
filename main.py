@@ -1,16 +1,21 @@
-# This is a sample Python script.
+BACKGROUND_COLOR = "#B1DDC6"
+from tkinter import *
+# -----------------UI------------------
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# --window setup--
+window = Tk()
+window.minsize(width=800, height=526)
+window.config(pady=50,padx=50)
+window.config(background=BACKGROUND_COLOR)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+# --white canvas--
+white_image = PhotoImage(file="images/wrong.png")
+canvas = Canvas(width=600,height=426)
+canvas.create_image(50,50, image=white_image)
+canvas.pack()
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+window.mainloop()
