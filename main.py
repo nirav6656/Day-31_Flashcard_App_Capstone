@@ -1,6 +1,7 @@
 import pandas
 import random
 from tkinter import *
+
 BACKGROUND_COLOR = "#B1DDC6"
 
 
@@ -15,10 +16,41 @@ def new_question_generate():
 returned_list = new_question_generate()
 
 
-def new_question():
+def wrong_button_new_question():
     global returned_list
+
+    print(returned_list)
+
+    # Read the original CSV file
+    data = pandas.read_csv("data/french_words.csv")
+
+    # Filter out the row to be deleted
+    filtered_data = data[~((data['French'] == returned_list["French"]) & (data['English'] == returned_list["English"]))]
+
+    # Write the filtered data back to the original CSV file
+    filtered_data.to_csv("data/french_words.csv", index=False)
+
+    # Create a DataFrame with a single row containing the values from returned_list
+    df_to_add = pandas.DataFrame([returned_list])
+
+    # Append the new row to the "needs_to_learn.csv" file
+    df_to_add.to_csv("data/needs_to_learn.csv", mode='a', header=False, index=False)
+
     returned_list = new_question_generate()
-    # canvas.itemconfigure(english_text, text=returned_list["English"])
+
+
+def right_button_new_question():
+    global returned_list
+    # Read the original CSV file
+    data = pandas.read_csv("data/french_words.csv")
+
+    # Filter out the row to be deleted
+    filtered_data = data[~((data['French'] == returned_list["French"]) & (data['English'] == returned_list["English"]))]
+
+    # Write the filtered data back to the original CSV file
+    filtered_data.to_csv("data/french_words.csv", index=False)
+
+    returned_list = new_question_generate()
 
 
 # -----------------UI------------------
@@ -73,14 +105,14 @@ canvas.grid(row=0, column=0)
 # wrong button
 wrong_image = PhotoImage(file="images/wrong.png")
 wrong_image_button = Button(width=100, height=100, highlightthickness=0, borderwidth=0, image=wrong_image, text=".",
-                            command=new_question)
+                            command=wrong_button_new_question)
 wrong_image_button.config(bg=BACKGROUND_COLOR)
 wrong_image_button.grid(row=1, column=0, sticky="e")
 
 # right button
 right_image = PhotoImage(file="images/right.png")
 right_image_button = Button(width=100, height=100, highlightthickness=0, borderwidth=0, image=right_image, text=".",
-                            command=new_question)
+                            command=right_button_new_question)
 right_image_button.config(bg=BACKGROUND_COLOR)
 right_image_button.grid(row=1, column=0, sticky="w")
 
